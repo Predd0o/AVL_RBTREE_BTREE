@@ -159,19 +159,6 @@ public class AVL {
     }
 }
 
-class Node {
-    int value;
-    Node right;
-    Node left;
-    int height;
-    Node parent;
-
-    public Node(int value) {
-        this.value = value;
-        this.height = 0; // folha começa com altura 0
-    }
-}
-
 
 // ═══════════════════════════════════════════════════════════════
 // TESTES

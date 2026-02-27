@@ -1,5 +1,5 @@
 package RBTree;
-
+import java.util.ArrayList;
 public class RedBlackTree {
     Node root; // nó raiz da árvore
     int size;  // quantidade de elementos na árvore
@@ -188,6 +188,102 @@ public class RedBlackTree {
         if (node.right == null) return node; // não tem filho direito: é o máximo
         return max(node.right);              // continua descendo à direita
     }
+
+    public int countRedNodes(){
+        return countRedNodes(this.root);
+    }
+    private int  countRedNodes(Node node) {
+        if (node == null) return 0;
+        int current;
+        if (node.isRed) {
+            current = 1;
+        }else{
+            current = 0;
+        }
+        return current + countRedNodes(node.left) + countRedNodes(node.right);
+    }
+
+    public int countBlackNodes(){
+        return countBlackNodes(this.root);
+    }
+    private int  countBlackNodes(Node node) {
+        if (node == null) return 0;
+        int current;
+        if (!node.isRed) {
+            current = 1;
+        }else{
+            current = 0;
+        }
+        return current + countBlackNodes(node.left) + countBlackNodes(node.right);
+    }
+
+    public int blackHeight(){
+        return blackHeight(this.root);
+    }
+    private int blackHeight(Node node) {
+        if (node == null) return 0;
+        int current;
+        if(!node.isRed()){
+            current = 1;
+        }else{
+            current = 0;
+        }
+        return current + Math.max(blackHeight(node.left), blackHeight(node.right));
+    }
+    public int redHeight(){
+        return redHeight(this.root);
+    }
+    private int redHeight(Node node) {
+        if (node == null) return 0;
+        int current;
+        if (node.isRed()) {
+            current = 1;
+        }else{
+            current = 0;
+        }
+        return current + Math.max(redHeight(node.left), redHeight(node.right));
+    }
+    public ArrayList<String> preOrder() {
+        ArrayList<String> list = new ArrayList<>();
+        preOrder(this.root, list);
+        return list;
+    }
+
+    private void preOrder(Node node, ArrayList<String> list) {
+        if (node == null) return;                          // caso base
+        list.add(node.value + "," + node.isRed);        // visita o nó ANTES dos filhos
+        preOrder(node.left, list);                         // vai para esquerda
+        preOrder(node.right, list);                        // vai para direita
+    }
+
+    public ArrayList<String> inOrder() {
+        ArrayList<String> list = new ArrayList<>();
+        inOrder(this.root, list);
+        return list;
+    }
+
+    private void inOrder(Node node, ArrayList<String> list) {
+        if (node == null) return;                          // caso base
+        inOrder(node.left, list);                          // vai para esquerda primeiro
+        list.add(node.value + "," + node.isRed);        // visita o nó NO MEIO
+        inOrder(node.right, list);                         // vai para direita
+    }
+
+    public ArrayList<String> postOrder() {
+        ArrayList<String> list = new ArrayList<>();
+        postOrder(this.root, list);
+        return list;
+    }
+
+    private void postOrder(Node node, ArrayList<String> list) {
+        if (node == null) return;                          // caso base
+        postOrder(node.left, list);                        // vai para esquerda primeiro
+        postOrder(node.right, list);                       // vai para direita depois
+        list.add(node.value + "," + node.isRed);        // visita o nó POR ÚLTIMO
+    }
+
+
+
 }
 
 class Node {
